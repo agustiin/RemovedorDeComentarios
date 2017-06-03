@@ -6,7 +6,8 @@ enum caracteres {
 	LF = 10,
 	CONTRABARRA=92
 };
-
+FILE *fp;
+FILE *fpe;
 void codigoSinComentarios(void);
 void barra1(void);
 void barra2(void);
@@ -18,23 +19,23 @@ void caracter(void);
 void escapeCaracter(void);
 
 void codigoSinComentarios(){
-
+	fputs("codigoSinComentarios\n",fpe);
 	switch(c = getchar()){
 		case '/':
 			barra1();
 			break;
 		case COMILLAS:
-			putchar(c);
+			fputc(c,fp);
 			cadena();
 			break;
 		case APOSTROFE:
-			putchar(c);
+			fputc(c,fp);
 			caracter();
 			break;
 		case EOF:
 			return;
 		default:
-			putchar(c);
+			fputc(c,fp);
 			codigoSinComentarios();
 			break;
 	}
@@ -42,6 +43,7 @@ void codigoSinComentarios(){
 }
 
 void barra1(){
+	fputs("\tbarrra1\n",fpe);
 	c = getchar();
 	switch(c){
 		case '/':
@@ -53,7 +55,7 @@ void barra1(){
 		case EOF:
 			break;
 		default:
-			putchar(c);
+			fputc(c,fp);
 			codigoSinComentarios();
 			break;
 	}
@@ -61,10 +63,11 @@ void barra1(){
 }
 
 void barra2(){
+	fputs("\t\tbarra2\n",fpe);
 	c = getchar();
 	switch(c){
 		case LF:
-			putchar(c);
+			fputc(c,fp);
 			codigoSinComentarios();
 			break;
 		case EOF:
@@ -77,6 +80,7 @@ void barra2(){
 }
 
 void asterisco(){
+	fputs("\t\t\tasterisco\n",fpe);
 	c = getchar();
 	switch(c){
 		case '*':
@@ -92,6 +96,7 @@ void asterisco(){
 }
 
 void asteriscosPalabras(){
+	fputs("\t\t\t\tasteriscosPalabras\n",fpe);
 	cAnterior = c;
 	c = getchar();
 	switch(c){
@@ -115,20 +120,21 @@ void asteriscosPalabras(){
 }
 
 void caracter(){
+	fputs("\t\t\t\t\tcaracter\n",fpe);
 	c = getchar();
 	switch(c){
 		case CONTRABARRA:
-			putchar(c);
+			fputc(c,fp);
 			escapeCaracter();
 			break;
 		case APOSTROFE:
-			putchar(c);
+			fputc(c,fp);
 			codigoSinComentarios();
 			break;
 		case EOF:
 			break;
 		default:
-			putchar(c);
+			fputc(c,fp);
 			caracter();
 			break;
 	}
@@ -136,12 +142,13 @@ void caracter(){
 }
 
 void escapeCaracter(){
+	fputs("\t\t\t\t\t\tescapeCaracter\n",fpe);
 	c= getchar();
 	switch(c){
 		case EOF:
 			break;
 		default: 
-			putchar(c);
+			fputc(c,fp);
 			caracter();
 			break;
 	}
@@ -149,32 +156,34 @@ void escapeCaracter(){
 }
 
 void cadena(){
+	fputs("\t\t\t\t\t\t\tcadena\n",fpe);
 	c = getchar();
 	switch(c){
 		case CONTRABARRA:
-			putchar(c);
+			fputc(c,fp);
 			escapeCadena();
 			break;
 		case COMILLAS:
-			putchar(c);
+			fputc(c,fp);
 			codigoSinComentarios();
 			break;
 		case EOF:
 			break;
 		default:
-			putchar(c);
+			fputc(c,fp);
 			cadena();
 			break;
 	}
 	return;
 }
 void escapeCadena(){
+	fputs("\t\t\t\t\t\t\t\tescapeCadena\n",fpe);
 	c= getchar();
 	switch(c){
 		case EOF:
 			break;
 		default: 
-			putchar(c);
+			fputc(c,fp);
 			cadena();
 			break;
 	}
@@ -182,6 +191,9 @@ void escapeCadena(){
 }
 
 int main(){
+
+	fp = fopen("resultadoa.txt","w");
+	fpe = fopen("ejecucion.txt","w");
 	codigoSinComentarios();
 	return 0;
 }
